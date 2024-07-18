@@ -13,7 +13,7 @@ This document outlines the procedure for conducting feature selection using a BE
   - This script utilizes a BERT model to extract features.
   - The preprocessing results (in numpy format) will be saved locally for convenient access.
 
-## Step 2: Benchmarking (filling metrics to benchmark_results.xlsx [it is in the Benchmark folder on google drive] )
+## Step 2: Benchmarking (filling metrics to [benchmark_results.xlsx](https://docs.google.com/spreadsheets/d/1P3UkHfzzvQmNRUmXpmXqhPpo5l1zCjTj/edit?usp=sharing&ouid=118152924941030920870&rtpof=true&sd=true) [it is in the Benchmark folder on google drive] )
 
 ### Part A: Running Most Benchmarks
 
