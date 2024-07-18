@@ -28,18 +28,18 @@ def bert_encode(texts, tokenizer, model, max_length):
             truncation=True
         )
         
-        # 移动编码后的数据到指定设备
+
         input_ids.append(encoded_dict['input_ids'].to(device))
         attention_masks.append(encoded_dict['attention_mask'].to(device))
     
-    # 使用torch.cat在维度0上连接列表中的所有tensor
+
     input_ids = torch.cat(input_ids, dim=0)
     attention_masks = torch.cat(attention_masks, dim=0)
     
     with torch.no_grad():
         outputs = model(input_ids, attention_mask=attention_masks)
     
-    features = outputs[0][:,0,:].cpu().numpy()  # 将特征移动回CPU并转换为NumPy数组
+    features = outputs[0][:,0,:].cpu().numpy() 
     return features
 
 
