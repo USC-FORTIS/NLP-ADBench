@@ -5,6 +5,7 @@ import sys
 import logging
 import os
 from pyod.models.vae import VAE
+from sklearn.metrics import average_precision_score
 
 logging.basicConfig(level=logging.INFO)
 
@@ -66,14 +67,16 @@ def vae_benchmark(X_train, X_test, y_train, y_test):
     y_test_scores = clf.decision_function(X_test)  # outlier scores
 
     # evaluate and print the results
-    print("\nOn Training Data:")
-    evaluate_print(clf_name, y_train, y_train_scores)
+    # print("\nOn Training Data:")
+    # evaluate_print(clf_name, y_train, y_train_scores)
     print("\nOn Test Data:")
     evaluate_print(clf_name, y_test, y_test_scores)
-
+    average_precision = average_precision_score(y_test, y_test_scores)
+    logging.info(f"Average Precision: {average_precision}")
 
 logging.info('vae_begin')
 for dataset_name, data in data_dict.items():
+    logging.info("\n\n ")
     logging.info(f"Dataset: {dataset_name}")
     X_train = data['train']['X']
     X_test = data['test']['X']

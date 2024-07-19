@@ -5,6 +5,7 @@ from pyod.models.lunar import LUNAR
 import sys
 import logging
 import os
+from sklearn.metrics import average_precision_score
 
 logging.basicConfig(level=logging.INFO)
 
@@ -68,10 +69,14 @@ def lunar_benchmark(X_train, X_test, y_train, y_test):
     # evaluate_print(clf_name, y_train, y_train_scores)
     logging.info("On Test Data:")
     evaluate_print(clf_name, y_test, y_test_scores)
+    average_precision = average_precision_score(y_test, y_test_scores)
+    logging.info(f"Average Precision: {average_precision}")
 
+    
 
 logging.info('lunar_begin')
 for dataset_name, data in data_dict.items():
+    logging.info("\n\n ")
     logging.info(f"Dataset: {dataset_name}")
     X_train = data['train']['X']
     X_test = data['test']['X']
