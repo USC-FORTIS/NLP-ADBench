@@ -1,4 +1,4 @@
-# BELOW DOES NOT WORK ANYMORE
+<!-- # BELOW DOES NOT WORK ANYMORE
 # Feature Selection and Benchmarking Procedure
 
 This document outlines the procedure for conducting feature selection using a BERT model and benchmarking OD algorithms. Please follow the steps below carefully to ensure a smooth and effective benchmarking process.
@@ -33,4 +33,22 @@ This document outlines the procedure for conducting feature selection using a BE
 - You may also use scripts within the `script.py` folder to parallelly run all files that include "benchmark" in their names.
   - **Caution**: This approach is likely to cause system crashes unless you have a very powerful computer setup. Proceed with caution if you decide to attempt this method.
 
+ -->
 
+# Import data
+Get data from the google drive link below and put it in the data folder.
+https://drive.google.com/drive/folders/1NmPzfE8COhqFgO-CZ1S7dsCJznY66uwe
+
+Place all downloaded data into the `./data` folder in the root directory of this project.
+
+# Run the code
+To process the data using either BERT or GPT features, run the following commands from the root directory of the project:
+## BERT
+````bash
+python [your_script_name].py bert
+````
+
+## GPT
+````bash
+python [your_script_name].py gpt
+````
