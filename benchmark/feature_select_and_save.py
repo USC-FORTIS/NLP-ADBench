@@ -22,6 +22,11 @@ def features_select_and_save_using_bert() :
     model = BertModel.from_pretrained('bert-base-uncased').to(device)
 
     for i in tqdm(range(num_dataset), desc="Encoding datasets"):
+        save_path = './data/' + dirs[i] + '/' + dataset_name[i] + '_bert_base_uncased_feature.npy'
+        if os.path.exists(save_path):
+            logging.info(f"Feature file already exists for {dataset_name[i]}, skipping...")
+            continue
+        
         logging.info(f"Encoding dataset: {dataset_name[i]}")
         logging.info(f"Loading dataset from: {dataset_path[i]}")
         logging.info(f"Dir name: {dirs[i]}")
@@ -48,13 +53,21 @@ def features_select_and_save_using_gpt() :
     MODEL_NAME = 'text-embedding-3-large'
 
     for i in tqdm(range(num_dataset), desc="GPT Encoding datasets"):
+        save_path = './data/' + dirs[i] + '/' + dataset_name[i] + '_gpt_text-embedding-3-large_feature.npy'
+        if os.path.exists(save_path):
+            logging.info(f"Feature file {save_path} already exists for {dataset_name[i]}, skipping...")
+            continue
         logging.info(f"GPT Encoding dataset: {dataset_name[i]}")
         logging.info(f"Loading dataset from: {dataset_path[i]}")
         logging.info(f"Dir name: {dirs[i]}")
         
         df = pd.read_json(dataset_path[i], lines=True)
         texts = df['text'].tolist()
-        feature = gpt_encode_batch(texts, MODEL_NAME)
+        batch_size = 32
+        if "email_spam_train_data" in dataset_name[i]:
+            batch_size = 1
+            logging.info(f"Setting batch size to 1 for {dataset_name[i]}")
+        feature = gpt_encode_batch(texts, MODEL_NAME, batch_size)
         
         print(feature[0][:2])
         
