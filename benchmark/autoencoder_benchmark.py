@@ -2,7 +2,6 @@ from pyod.models.auto_encoder import AutoEncoder
 from pyod.utils.data import evaluate_print
 import numpy as np
 import pandas as pd
-from pyod.models.lof import LOF
 import sys
 import logging
 import os
