@@ -18,11 +18,14 @@ def gpt_encode_batch(texts, model_name, batch_size=32,):
     # client = OpenAI(api_key="you api key")
 
     features = []
-    print(f"Total batches: {(len(texts) + batch_size - 1) // batch_size}")
+    logging.info(f"Total batches: {(len(texts) + batch_size - 1) // batch_size}")
 
     for i in range(0, len(texts), batch_size):
         batch_texts = texts[i:i + batch_size]
+        # logging.info(batch_texts)
         batch_texts = checktext(batch_texts)
+        # logging.info("after checktext")
+        # logging.info(batch_texts)
         try:
             response = client.embeddings.create(
                 model=model_name,
@@ -57,8 +60,8 @@ def gpt_encode_batch(texts, model_name, batch_size=32,):
             features.append(mean_embeddings)
             
             
-        if i % 100 == 0:
-            print(f"Batch {i // batch_size + 1} completed")
+        if i % 20 == 0:
+            logging.info(f"Batch {i // batch_size + 1} completed")
     
     features = np.concatenate(features, axis=0)
     return features
