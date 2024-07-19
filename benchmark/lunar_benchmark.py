@@ -2,7 +2,6 @@ from pyod.utils.data import evaluate_print
 import numpy as np
 import pandas as pd
 from pyod.models.lunar import LUNAR
-from pyod.utils.data import evaluate_print
 import sys
 import logging
 import os
@@ -50,7 +49,7 @@ for key, value in data_dict.items():
 
 
 
-def lof_benchmark(X_train, X_test, y_train, y_test):
+def lunar_benchmark(X_train, X_test, y_train, y_test):
     clf_name = 'LUNAR'
     clf = LUNAR()
     clf.fit(X_train)
@@ -78,7 +77,7 @@ for dataset_name, data in data_dict.items():
     X_test = data['test']['X']
     y_train = data['train']['Y']
     y_test = data['test']['Y']
-    lof_benchmark(X_train, X_test, y_train, y_test)
+    lunar_benchmark(X_train, X_test, y_train, y_test)
     logging.info('--------------------------------------------------------')
 
     

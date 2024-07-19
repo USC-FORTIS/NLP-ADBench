@@ -2,7 +2,6 @@ from pyod.utils.data import evaluate_print
 import numpy as np
 import pandas as pd
 from pyod.models.lof import LOF
-from pyod.utils.data import evaluate_print
 import sys
 import logging
 import os

@@ -5,6 +5,13 @@ import nltk
 from nltk.tokenize import sent_tokenize
 import logging
 
+def sanitize(text):
+    if not text:
+        return " "
+    return text
+def checktext(texts):
+    return [sanitize(text) for text in texts]
+
 def gpt_encode_batch(texts, model_name, batch_size=32,):
     # The api_key client option must be set either by passing api_key to the client or by setting the OPENAI_API_KEY environment variable"
     client = OpenAI()
@@ -15,6 +22,7 @@ def gpt_encode_batch(texts, model_name, batch_size=32,):
 
     for i in range(0, len(texts), batch_size):
         batch_texts = texts[i:i + batch_size]
+        batch_texts = checktext(batch_texts)
         try:
             response = client.embeddings.create(
                 model=model_name,
@@ -27,6 +35,8 @@ def gpt_encode_batch(texts, model_name, batch_size=32,):
             logging.error(f"Token limit exceeded, adjusting the batch size..")
             logging.error(f"Error: {e}")
             error_message = str(e)
+            if "requested" not in error_message:
+                raise e
             requested_tokens = int(error_message.split("requested ")[1].split(" tokens")[0])
             token_limit = 8192
             if requested_tokens > token_limit:

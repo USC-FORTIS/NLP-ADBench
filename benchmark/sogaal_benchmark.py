@@ -1,31 +1,53 @@
-from pyod.models.cof import COF
+from pyod.models.so_gaal import SO_GAAL
 from pyod.utils.data import evaluate_print
 import numpy as np
 import pandas as pd
-from sklearn.model_selection import train_test_split
+import sys
+import logging
+import os
 
-#%%
-import experiment_config
-dataset_path,dataset_name = experiment_config.get_path_and_name()
-num_dataset = len(dataset_path)
-# dataset_name = ["clickbait_nonclickbait", "Corona_NLP", "movie_review", "sms_spam"]
-# dataset_path = ["./data/clickbait_nonclickbait.jsonl", "./data/Corona_NLP.jsonl", "./data/movie_review.jsonl", "./data/sms_spam.jsonl"]
-# load dataset
-df = [pd.read_json(dataset_path[i], lines=True) for i in range(num_dataset)]
-texts = [df[i]['text'].tolist() for i in range(num_dataset)]
-labels = [df[i]['label'].tolist() for i in range(num_dataset)]
-# dataset_name = ["clickbait_nonclickbait", "Corona_NLP", "movie_review", "sms_spam"]
-features = [np.load('./feature/'+dataset_name[i]+'_feature.npy') for i in range(num_dataset)]
-X_train, X_test, y_train, y_test = [], [], [], []
-for i in range(num_dataset):
-    xtrain, xtest, ytrain, ytest = train_test_split(features[i], labels[i], test_size=0.33, random_state=42)
-    X_train.append(xtrain)
-    X_test.append(xtest)
-    y_train.append(ytrain)
-    y_test.append(ytest)
-    print()
-from pyod.models.so_gaal import SO_GAAL
-from pyod.utils.data import evaluate_print
+logging.basicConfig(level=logging.INFO)
+
+if len(sys.argv) > 1:
+    embedding_method = sys.argv[1]
+else:
+    logging.error("Please provide an embedding method.")
+    sys.exit(1) 
+
+if embedding_method == 'bert':
+    embedding_suffix = "_bert_base_uncased_feature.npy"
+elif embedding_method == 'gpt':
+    embedding_suffix = "_gpt_text-embedding-3-large_feature.npy"
+else:
+    logging.error("Invalid embedding method. Only 'bert' and 'gpt' are supported.")
+    sys.exit(1)
+
+data_dir = './data/'
+data_dict = {}
+
+for dir_name in os.listdir(data_dir):
+    dir_path = os.path.join(data_dir, dir_name)
+    if os.path.isdir(dir_path):  
+        for file in os.listdir(dir_path):
+            if file.endswith(embedding_suffix):
+                data_type = 'train' if 'train' in file else 'test' if 'test' in file else None
+                if data_type:
+                    features_path = os.path.join(dir_path, file)
+                    features = np.load(features_path)
+                    labels_path = os.path.join(dir_path, file.replace(embedding_suffix, '.jsonl'))
+                    labels = pd.read_json(labels_path, lines=True)['label'].tolist()
+                    
+                    if dir_name not in data_dict:
+                        data_dict[dir_name] = {'train': {"X": None, "Y": None}, 'test': {"X": None, "Y": None}}
+                    data_dict[dir_name][data_type]['X'] = features
+                    data_dict[dir_name][data_type]['Y'] = labels
+
+for key, value in data_dict.items():
+    logging.info(f"Dataset: {key}")
+    for type_key, data in value.items():
+        logging.info(f"  {type_key.capitalize()}: {len(data['X'])} samples, {len(data['Y'])} labels")
+
+
 def so_gaal_benchmark(X_train, X_test, y_train, y_test):
     contamination = 0.1
 
@@ -34,21 +56,31 @@ def so_gaal_benchmark(X_train, X_test, y_train, y_test):
     clf = SO_GAAL(stop_epochs=2, contamination=contamination)
     clf.fit(X_train)
 
+    # Because ONLY normal data is used for training, ROC cn't be calculated (Only one class present in y_true. ROC AUC score is not defined in that case.)
     # get the prediction labels and outlier scores of the training data
-    y_train_pred = clf.labels_  # binary labels (0: inliers, 1: outliers)
-    y_train_scores = clf.decision_scores_  # raw outlier scores
+    # y_train_pred = clf.labels_  # binary labels (0: inliers, 1: outliers)
+    # y_train_scores = clf.decision_scores_  # raw outlier scores
 
     # get the prediction on the test data
     y_test_pred = clf.predict(X_test)  # outlier labels (0 or 1)
     y_test_scores = clf.decision_function(X_test)  # outlier scores
 
     # evaluate and print the results
-    print("\nOn Training Data:")
-    evaluate_print(clf_name, y_train, y_train_scores)
-    print("\nOn Test Data:")
+    # print("\nOn Training Data:")
+    # evaluate_print(clf_name, y_train, y_train_scores)
+    logging.info("On Test Data:")
     evaluate_print(clf_name, y_test, y_test_scores)
 
-for i in range(num_dataset):
-    print(dataset_name[i]+':')
-    so_gaal_benchmark(X_train[i], X_test[i], y_train[i], y_test[i])
-    print()
+
+logging.info('SO_GAAL_begin')
+for dataset_name, data in data_dict.items():
+    logging.info(f"Dataset: {dataset_name}")
+    X_train = data['train']['X']
+    X_test = data['test']['X']
+    y_train = data['train']['Y']
+    y_test = data['test']['Y']
+    so_gaal_benchmark(X_train, X_test, y_train, y_test)
+    logging.info('--------------------------------------------------------')
+
+    
+logging.info('SO_GAAL_done')

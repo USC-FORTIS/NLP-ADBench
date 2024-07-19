@@ -42,13 +42,15 @@ https://drive.google.com/drive/folders/1NmPzfE8COhqFgO-CZ1S7dsCJznY66uwe
 Place all downloaded data into the `./data` folder in the root directory of this project.
 
 # Run the code
-To process the data using either BERT or GPT features, run the following commands from the root directory of the project:
-## BERT
+Run the following commands from the root directory of the project:
+### BERT
+If you want to run a benchmark with data embedded using BERT, use this command:
 ````bash
 python [your_script_name].py bert
 ````
 
-## GPT
+### GPT
+If you want to run a benchmark with data embedded using GPT, use this command:
 ````bash
 python [your_script_name].py gpt
 ````
