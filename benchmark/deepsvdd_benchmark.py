@@ -55,28 +55,23 @@ def deepsvdd_benchmark(X_train, X_test, y_train, y_test):
     use_ae = False  # hyperparameter for use ae architecture instead of simple NN
     random_state = 10  # if C is set to None use random_state
     contamination = 0.1
+    n_features = X_train.shape[1]  # Determine the number of features
 
     clf_name = 'DeepSVDD'
-    clf = DeepSVDD(use_ae=use_ae, epochs=5, contamination=contamination,
+    clf = DeepSVDD(n_features=n_features, use_ae=use_ae, epochs=5, contamination=contamination,
                    random_state=random_state)
     clf.fit(X_train)
-
-    # Because ONLY normal data is used for training, ROC cn't be calculated (Only one class present in y_true. ROC AUC score is not defined in that case.)
-    # get the prediction labels and outlier scores of the training data
-    # y_train_pred = clf.labels_  # binary labels (0: inliers, 1: outliers)
-    # y_train_scores = clf.decision_scores_  # raw outlier scores
 
     # get the prediction on the test data
     y_test_pred = clf.predict(X_test)  # outlier labels (0 or 1)
     y_test_scores = clf.decision_function(X_test)  # outlier scores
 
     # evaluate and print the results
-    # print("\nOn Training Data:")
-    # evaluate_print(clf_name, y_train, y_train_scores)
     logging.info("On Test Data:")
     evaluate_print(clf_name, y_test, y_test_scores)
     average_precision = average_precision_score(y_test, y_test_scores)
     logging.info(f"Average Precision: {average_precision}")
+
 
 
 logging.info('DeepSVDD_begin')
