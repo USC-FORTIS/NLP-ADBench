@@ -1,4 +1,4 @@
-from pyod.models.so_gaal import SO_GAAL
+from pyod.models.so_gaal_new import SO_GAAL
 from pyod.utils.data import evaluate_print
 import numpy as np
 import pandas as pd
@@ -54,21 +54,21 @@ def so_gaal_benchmark(X_train, X_test, y_train, y_test):
 
     # train SO_GAAL detector
     clf_name = 'SO_GAAL'
-    clf = SO_GAAL(stop_epochs=2, contamination=contamination)
-    clf.fit(X_train)
+    clf = SO_GAAL(epoch_num=30, contamination=contamination, verbose=2)
 
-    # Because ONLY normal data is used for training, ROC cn't be calculated (Only one class present in y_true. ROC AUC score is not defined in that case.)
-    # get the prediction labels and outlier scores of the training data
-    # y_train_pred = clf.labels_  # binary labels (0: inliers, 1: outliers)
-    # y_train_scores = clf.decision_scores_  # raw outlier scores
+    # Ensure input and target sizes are the same
+    if len(X_train) > len(y_train):
+        X_train = X_train[:len(y_train)]
+    elif len(y_train) > len(X_train):
+        y_train = y_train[:len(X_train)]
+
+    clf.fit(X_train)
 
     # get the prediction on the test data
     y_test_pred = clf.predict(X_test)  # outlier labels (0 or 1)
     y_test_scores = clf.decision_function(X_test)  # outlier scores
 
     # evaluate and print the results
-    # print("\nOn Training Data:")
-    # evaluate_print(clf_name, y_train, y_train_scores)
     logging.info("On Test Data:")
     evaluate_print(clf_name, y_test, y_test_scores)
     average_precision = average_precision_score(y_test, y_test_scores)
@@ -86,5 +86,4 @@ for dataset_name, data in data_dict.items():
     so_gaal_benchmark(X_train, X_test, y_train, y_test)
     logging.info('--------------------------------------------------------')
 
-    
 logging.info('SO_GAAL_done')
