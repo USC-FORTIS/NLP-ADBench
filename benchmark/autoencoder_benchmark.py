@@ -54,7 +54,7 @@ def auto_encoder_benchmark(X_train, X_test, y_train, y_test):
     contamination = 0.1
     # train AutoEncoder detector
     clf_name = 'AutoEncoder'
-    clf = AutoEncoder(epochs=30, contamination=contamination)
+    clf = AutoEncoder(epoch_num=30, contamination=contamination)
     clf.fit(X_train)
 
     # Because ONLY normal data is used for training, ROC cn't be calculated (Only one class present in y_true. ROC AUC score is not defined in that case.)
