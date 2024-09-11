@@ -50,8 +50,8 @@ for key, value in data_dict.items():
 
 
 
-def iforest_benchmark(X_train, X_test, y_train, y_test):
-    clf_name = 'IForest'
+def iforest_benchmark(X_train, X_test, y_train, y_test,dataset_name):
+    clf_name = 'IForest'+dataset_name
     clf = IForest()
     clf.fit(X_train)
 
@@ -82,7 +82,7 @@ for dataset_name, data in data_dict.items():
     X_test = data['test']['X']
     y_train = data['train']['Y']
     y_test = data['test']['Y']
-    iforest_benchmark(X_train, X_test, y_train, y_test)
+    iforest_benchmark(X_train, X_test, y_train, y_test,dataset_name)
     logging.info('--------------------------------------------------------')
 
     

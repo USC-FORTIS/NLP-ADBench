@@ -168,3 +168,4 @@ cython_debug/
 ./try*
 
 *.joblib
+try.py
