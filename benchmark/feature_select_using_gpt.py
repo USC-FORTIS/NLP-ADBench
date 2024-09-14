@@ -17,54 +17,51 @@ def gpt_encode_batch(texts, model_name, batch_size=32,):
     client = OpenAI()
     # client = OpenAI(api_key="you api key")
 
-    features = []
-    logging.info(f"Total batches: {(len(texts) + batch_size - 1) // batch_size}")
-
-    for i in range(0, len(texts), batch_size):
-        batch_texts = texts[i:i + batch_size]
-        # logging.info(batch_texts)
-        batch_texts = checktext(batch_texts)
-        # logging.info("after checktext")
-        # logging.info(batch_texts)
-        try:
+    
+    batch_texts = checktext(texts)
+    # logging.info("after checktext")
+    # logging.info(batch_texts)
+    try:
+        response = client.embeddings.create(
+            model=model_name,
+            input=texts
+        )
+        batch_features = np.array([item.embedding for item in response.data])
+        # features.append(batch_features)
+        return batch_features
+    except BadRequestError as e:
+        # some data's text is too long, so we need to split it into smaller parts, and then average the embeddings
+        logging.error(f"Token limit exceeded, adjusting the batch size..")
+        logging.error(f"Error: {e}")
+        error_message = str(e)
+        if "requested" not in error_message:
+            raise e
+        requested_tokens = int(error_message.split("requested ")[1].split(" tokens")[0])
+        token_limit = 8192
+        if requested_tokens > token_limit:
+            factor = requested_tokens // token_limit + 1
+        # split the text to factor parts
+        splited_texts = split_text_into_parts(batch_texts[0], factor)
+        
+        embeddings = []
+        for text in splited_texts:
             response = client.embeddings.create(
                 model=model_name,
-                input=batch_texts
+                input=text
             )
             batch_features = np.array([item.embedding for item in response.data])
-            features.append(batch_features)
-        except BadRequestError as e:
-            # some data's text is too long, so we need to split it into smaller parts, and then average the embeddings
-            logging.error(f"Token limit exceeded, adjusting the batch size..")
-            logging.error(f"Error: {e}")
-            error_message = str(e)
-            if "requested" not in error_message:
-                raise e
-            requested_tokens = int(error_message.split("requested ")[1].split(" tokens")[0])
-            token_limit = 8192
-            if requested_tokens > token_limit:
-                factor = requested_tokens // token_limit + 1
-            # split the text to factor parts
-            splited_texts = split_text_into_parts(batch_texts[0], factor)
-            
-            embeddings = []
-            for text in splited_texts:
-                response = client.embeddings.create(
-                    model=model_name,
-                    input=text
-                )
-                batch_features = np.array([item.embedding for item in response.data])
-                embeddings.append(batch_features)
-            # average the embeddings
-            mean_embeddings = np.mean(embeddings, axis=0)
-            features.append(mean_embeddings)
-            
+            embeddings.append(batch_features)
+        # average the embeddings
+        mean_embeddings = np.mean(embeddings, axis=0)
+        # features.append(mean_embeddings)
+        return mean_embeddings
+        
             
         if i % 20 == 0:
             logging.info(f"Batch {i // batch_size + 1} completed")
     
-    features = np.concatenate(features, axis=0)
-    return features
+    # features = np.concatenate(features, axis=0)
+    # return features
 
 
 def split_text_into_parts(text, number_of_parts=2):
