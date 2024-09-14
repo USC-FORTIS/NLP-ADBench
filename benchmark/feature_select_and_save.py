@@ -130,7 +130,7 @@ def features_select_and_save_using_gpt() :
             append_to_npy(save_path, batch_features)
             total_processed += len(batch_features)
             
-            if j % 20 == 0:
+            if (j // batch_size + 1) % 10 == 0:
                 logging.info(f"Batch {j // batch_size + 1} completed. Total processed: {total_processed}")
                 
         logging.info(f"Completed processing and saving features for {dataset_name[i]}")
