@@ -51,7 +51,7 @@ for key, value in data_dict.items():
 
 
 def iforest_benchmark(X_train, X_test, y_train, y_test,dataset_name):
-    clf_name = 'IForest'+dataset_name
+    clf_name = 'IForest'+"   "+dataset_name+"   "+embedding_method
     clf = IForest()
     clf.fit(X_train)
 
@@ -71,9 +71,33 @@ def iforest_benchmark(X_train, X_test, y_train, y_test,dataset_name):
     logging.info("On Test Data:")
     evaluate_print(clf_name, y_test, y_test_scores)
     average_precision = average_precision_score(y_test, y_test_scores)
-    logging.info(f"Average Precision: {average_precision}")
+    logging.info(f"IForest {dataset_name}  {embedding_method} Average Precision: {average_precision}")
 
 
+from sklearn.preprocessing import StandardScaler, normalize
+
+def clean_features(X):
+    # Replace NaNs with 0, positive infinity with a large number, negative infinity with a small number
+    X = np.nan_to_num(X, nan=0.0, posinf=1e38, neginf=-1e38)
+
+    # Clip the values to the maximum and minimum representable by float32
+    max_float32 = np.finfo(np.float32).max
+    min_float32 = np.finfo(np.float32).min
+    X = np.clip(X, min_float32, max_float32)
+
+    # Standardize features by removing the mean and scaling to unit variance
+    scaler = StandardScaler()
+    X = scaler.fit_transform(X)
+
+    # Convert to float32
+    X = X.astype(np.float32)
+    return X
+
+def clean_labels(y):
+    # For labels, just ensure they are a proper float32 array and replace NaNs or Infs if necessary
+    y = np.nan_to_num(y, nan=0.0, posinf=1e38, neginf=-1e38)
+    y = y.astype(np.float32)
+    return y
 logging.info('IForest_begin')
 for dataset_name, data in data_dict.items():
     logging.info("\n\n ")
@@ -82,6 +106,10 @@ for dataset_name, data in data_dict.items():
     X_test = data['test']['X']
     y_train = data['train']['Y']
     y_test = data['test']['Y']
+    X_train = clean_features(X_train)
+    X_test = clean_features(X_test)
+    y_train =  clean_labels(y_train)
+    y_test = clean_labels(y_test)
     iforest_benchmark(X_train, X_test, y_train, y_test,dataset_name)
     logging.info('--------------------------------------------------------')
 

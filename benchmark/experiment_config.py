@@ -18,7 +18,7 @@ def collect_jsonl_files_and_directories(base_path):
     return files_list, directories_list
 
 
-base_path = "/Users/ken/Desktop/NLP-Anomaly/NLPAD/benchmark/data"
+base_path = "./data"
 
 
 jsonl_files, directories = collect_jsonl_files_and_directories(base_path)

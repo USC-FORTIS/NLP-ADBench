@@ -169,3 +169,8 @@ cython_debug/
 
 *.joblib
 try.py
+
+*.out
+*.err
+*.slurm
+*.zip

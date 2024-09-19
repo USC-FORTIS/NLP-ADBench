@@ -37,7 +37,7 @@ def features_select_and_save_using_bert() :
         
         df = pd.read_json(dataset_path[i], lines=True)
         texts = df['text'].tolist()
-        feature = bert_encode_batch(texts, tokenizer, model, max_length=512, batch_size=32)
+        feature = bert_encode_batch(texts, tokenizer, model, max_length=512, batch_size=64)
 
         print(feature[0][:2])
         # logging.info("Saving features for dataset: {} with shape: {} to ./feature/{}_feature.npy".format(dataset_name[i], feature.shape, dataset_name[i]))

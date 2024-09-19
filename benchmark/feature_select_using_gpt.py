@@ -71,7 +71,7 @@ def gpt_encode_batch(texts, model_name, batch_size=32,):
 
 
 def split_text_into_parts(text, number_of_parts=2):
-    nltk.download('punkt_tab')  
+    nltk.download('punkt')  
     sentences = sent_tokenize(text)
     total_sentences = len(sentences)
     part_size = total_sentences // number_of_parts
