@@ -108,11 +108,7 @@ def features_select_and_save_using_gpt() :
             else:
                 logging.warning(f"Row count mismatch for {dataset_name[i]}. JSONL: {jsonl_row_count}, Feature: {feature_row_count}")
                 logging.info(f"Deleting existing feature file and reprocessing.")
-                # os.remove(save_path)
-                if ("N24News_train_data" in dataset_name[i]) or ("N24News_test_data" in dataset_name[i]):
-                    start_i = feature_row_count - 1
-                else:
-                    raise
+                start_i = feature_row_count
         logging.info(f"GPT Encoding dataset: {dataset_name[i]}")
         logging.info(f"Loading dataset from: {dataset_path[i]}")
         logging.info(f"Dir name: {dirs[i]}")
@@ -125,8 +121,8 @@ def features_select_and_save_using_gpt() :
             logging.info(f"Setting batch size to 1 for {dataset_name[i]}")
         
         
-        total_processed = start_i + 1
-        logging.info(f"Total batches: {(len(texts) - start_i -1 + batch_size - 1) // batch_size}")
+        total_processed = start_i 
+        logging.info(f"Total batches: {(len(texts) - start_i + batch_size - 1) // batch_size}")
         for j in range(start_i, len(texts), batch_size):
             batch_texts = texts[j:j+batch_size]
             batch_features = gpt_encode_batch(batch_texts, MODEL_NAME, batch_size)
@@ -200,8 +196,9 @@ def start_feature_select_and_save():
 
     try:
         load_features_and_test()
-    except:
+    except Exception as e:
         logging.error("Error loading features")
+        logging.error(str(e))
 
 
 start_feature_select_and_save()

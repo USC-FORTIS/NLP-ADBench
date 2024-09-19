@@ -37,6 +37,8 @@ def gpt_encode_batch(texts, model_name, batch_size=32,):
         # some data's text is too long, so we need to split it into smaller parts, and then average the embeddings
         logging.error(f"Token limit exceeded, adjusting the batch size..")
         logging.error(f"Error: {e}")
+        if len(batch_texts) > 1:
+            raise e
         error_message = str(e)
         if "requested" not in error_message:
             raise e
