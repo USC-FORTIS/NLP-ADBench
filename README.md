@@ -17,6 +17,9 @@ Follow these steps to set up the development environment using the provided Cond
    ```
 
 # Step by Step Instructions
+
+Define: In below content, `./benchmark` means the root directory of the project.
+
 ## Import data
 Get data from the google drive link below and put it in the data folder.
 https://drive.google.com/drive/folders/1NmPzfE8COhqFgO-CZ1S7dsCJznY66uwe
