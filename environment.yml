@@ -128,4 +128,3 @@ dependencies:
       - watchdog==4.0.1
       - wget==3.2
       - zipp==3.19.2
-prefix: /home1/yuangang/.conda/envs/nlpad
