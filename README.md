@@ -2,9 +2,8 @@
 
 ## Overview
 
-**NLP-ADBench** is a benchmarking tool for Anomaly Detection in Natural Language Processing. It provides a comprehensive evaluation of the performance of various anomaly detection algorithms on a wide range of NLP datasets. The tool is designed to evaluate the performance of anomaly detection algorithms on NLP datasets using a two-step approach. The first step involves transforming the raw text data into numerical embeddings using pre-trained models such as BERT `bert-base-uncased` and OpenAI `text-embedding-3-large`. The second step involves applying anomaly detection algorithms to the embeddings to detect anomalies. The tool provides a unified interface for evaluating the performance of various anomaly detection algorithms on NLP datasets and allows users to compare the performance of different algorithms on different datasets.
+**NLP-ADBench** is a benchmarking tool for Anomaly Detection in Natural Language Processing. It provides a comprehensive evaluation of the performance of various anomaly detection algorithms on a wide range of NLP datasets. The tool is designed to evaluate the performance of anomaly detection algorithms on NLP datasets using a two-step approach. 
 
-For End-to-End NLP-AD algorithms, we will provide the code soon.
 
 ## NLPAD Datasets
 
@@ -21,7 +20,7 @@ The datasets required for this project can be downloaded from the following hugg
 
 
 
-# Step by Step Instructions for Running the Code
+# Step by Step Instructions for Running the Benchmark
 
 ## Environment Setup Instructions
 
