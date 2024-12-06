@@ -49,13 +49,13 @@ Place all downloaded embeddings data into the `./feature` folder in the `./bench
 ## Run the code
 Run the following commands from the `./benchmark` directory of the project:
 ### BERT
-If you want to run a benchmark with data embedded using BERT's `bert-base-uncased` model, use this command:
+If you want to run a benchmark using data embedded with BERT's `bert-base-uncased` model, use this command:
 ````bash
 python [your_script_name].py bert
 ````
 
 ### OpenAI
-If you want to run a benchmark with data embedded using OpenAI's `text-embedding-3-large` model, use this command:
+If you want to run a benchmark using data embedded with OpenAI's `text-embedding-3-large` model, use this command:
 ````bash
 python [your_script_name].py gpt
 ````
