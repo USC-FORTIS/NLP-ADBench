@@ -57,7 +57,7 @@ Follow these steps to set up the development environment using the provided Cond
 
 Get `Pre-Extracted Embeddings` data from the [huggingface link](https://huggingface.co/datasets/kendx/NLP-ADBench/tree/main/embeddings) and put it in the data folder.
 
-Place all downloaded embeddings data into the `./feature` folder in the `./benchmark` directory of this project.
+Place all downloaded embeddings data into the `feature` folder in the `./benchmark` directory of this project.
 
 ## Run the code
 Run the following commands from the `./benchmark` directory of the project:
