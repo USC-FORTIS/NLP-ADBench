@@ -2,7 +2,7 @@
 
 ## Overview
 
-**NLP-ADBench** is a benchmarking tool for Anomaly Detection in Natural Language Processing. It provides a comprehensive evaluation of the performance of various anomaly detection algorithms on a wide range of NLP datasets. The tool is designed to evaluate the performance of anomaly detection algorithms on NLP datasets using a two-step approach. 
+**NLP-ADBench** is a benchmarking tool for Anomaly Detection in Natural Language Processing. It provides a comprehensive evaluation of the performance of various anomaly detection algorithms on a wide range of NLP AD datasets. The tool is designed to evaluate the performance of anomaly detection algorithms on NLP datasets using a two-step approach. 
 
 
 ## NLPAD Datasets
@@ -17,7 +17,20 @@ The datasets required for this project can be downloaded from the following hugg
 
    - [Pre-Extracted Embeddings](https://huggingface.co/datasets/kendx/NLP-ADBench/tree/main/embeddings)
 
+## Citation
 
+If you find this work useful, please cite our paper:
+
+[**Paper Link**](https://arxiv.org/abs/2412.04784): https://arxiv.org/abs/2412.04784
+
+```bibtex
+@article{li2024nlp,
+  title={NLP-ADBench: NLP Anomaly Detection Benchmark},
+  author={Li, Yuangang and Li, Jiaqi and Xiao, Zhuo and Yang, Tiankai and Nian, Yi and Hu, Xiyang and Zhao, Yue},
+  journal={arXiv preprint arXiv:2412.04784},
+  year={2024}
+}
+```
 
 
 # Step by Step Instructions for Running the Benchmark
@@ -44,19 +57,19 @@ Follow these steps to set up the development environment using the provided Cond
 
 Get `Pre-Extracted Embeddings` data from the [huggingface link](https://huggingface.co/datasets/kendx/NLP-ADBench/tree/main/embeddings) and put it in the data folder.
 
-Place all downloaded embeddings data into the `./feature` folder in the `./benchmark` directory of this project.
+Place all downloaded embeddings data into the `feature` folder in the `./benchmark` directory of this project.
 
 ## Run the code
 Run the following commands from the `./benchmark` directory of the project:
 ### BERT
 If you want to run a benchmark using data embedded with BERT's `bert-base-uncased` model, use this command:
 ````bash
-python [your_script_name].py bert
+python [algorithm_name]_benchmark.py bert
 ````
 
 ### OpenAI
 If you want to run a benchmark using data embedded with OpenAI's `text-embedding-3-large` model, use this command:
 ````bash
-python [your_script_name].py gpt
+python [algorithm_name]_benchmark.py gpt
 ````
 
