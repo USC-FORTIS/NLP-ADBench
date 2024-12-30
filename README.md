@@ -2,7 +2,7 @@
 
 ## Overview
 
-**NLP-ADBench** is a benchmarking tool for Anomaly Detection in Natural Language Processing. It provides a comprehensive evaluation of the performance of various anomaly detection algorithms on a wide range of NLP datasets. The tool is designed to evaluate the performance of anomaly detection algorithms on NLP datasets using a two-step approach. 
+**NLP-ADBench** is a benchmarking tool for Anomaly Detection in Natural Language Processing. It provides a comprehensive evaluation of the performance of various anomaly detection algorithms on a wide range of NLP AD datasets. The tool is designed to evaluate the performance of anomaly detection algorithms on NLP datasets using a two-step approach. 
 
 
 ## NLPAD Datasets
@@ -64,12 +64,12 @@ Run the following commands from the `./benchmark` directory of the project:
 ### BERT
 If you want to run a benchmark using data embedded with BERT's `bert-base-uncased` model, use this command:
 ````bash
-python [your_script_name].py bert
+python [algorithm_name]_benchmark.py bert
 ````
 
 ### OpenAI
 If you want to run a benchmark using data embedded with OpenAI's `text-embedding-3-large` model, use this command:
 ````bash
-python [your_script_name].py gpt
+python [algorithm_name]_benchmark.py gpt
 ````
 
