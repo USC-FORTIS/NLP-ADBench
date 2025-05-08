@@ -20,26 +20,12 @@ The datasets required for this project can be downloaded from the following hugg
 
 1. **NLPAD Datasets**: These are the datasets mentioned in NLP-ADBench paper. You can download them from:
 
-   - [NLP-AD Datasets](https://huggingface.co/datasets/kendx/NLP-ADBench/tree/main/datasets)
+   - [NLP-AD Datasets](https://huggingface.co/datasets/anonymous4maskreview/NLP-ADBench/tree/main/datasets)
 
 2. **Pre-Extracted Embeddings**: For embedding-based algorithms, we have already extracted these embeddings. If you want to use them directly, you can download them from:
 
-   - [Pre-Extracted Embeddings](https://huggingface.co/datasets/kendx/NLP-ADBench/tree/main/embeddings)
+   - [Pre-Extracted Embeddings](https://huggingface.co/datasets/anonymous4maskreview/NLP-ADBench/tree/main/embeddings)
 
-## Citation
-
-If you find this work useful, please cite our paper:
-
-[**Paper Link**](https://arxiv.org/abs/2412.04784): https://arxiv.org/abs/2412.04784
-
-```bibtex
-@article{li2024nlp,
-  title={NLP-ADBench: NLP Anomaly Detection Benchmark},
-  author={Li, Yuangang and Li, Jiaqi and Xiao, Zhuo and Yang, Tiankai and Nian, Yi and Hu, Xiyang and Zhao, Yue},
-  journal={arXiv preprint arXiv:2412.04784},
-  year={2024}
-}
-```
 
 
 # Instructions for Running the Benchmark
@@ -64,7 +50,7 @@ Follow these steps to set up the development environment using the provided Cond
 
 ## Import data
 
-Get `Pre-Extracted Embeddings` data from the [huggingface link](https://huggingface.co/datasets/kendx/NLP-ADBench/tree/main/embeddings) and put it in the data folder.
+Get `Pre-Extracted Embeddings` data from the [huggingface link](https://huggingface.co/datasets/anonymous4maskreview/NLP-ADBench/tree/main/embeddings) and put it in the data folder.
 
 Place all downloaded embeddings data into the `feature` folder in the `./benchmark` directory of this project.
 
