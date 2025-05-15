@@ -12,6 +12,7 @@ To ensure a robust evaluation, NLP-ADBench includes results from 19 algorithms a
 
 
 ![Performance comparison of 19 Algorithms on 8 NLPAD datasets using AUROC](figs/benchmark.png)
+![Performance comparison of 19 Algorithms on 8 NLPAD datasets using AUPRC](figs/benchmark_auprc.png)
 
 
 ## NLPAD Datasets
