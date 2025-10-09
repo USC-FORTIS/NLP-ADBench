@@ -33,11 +33,11 @@ If you find this work useful, please cite our paper:
 [**Paper Link**](https://arxiv.org/abs/2412.04784): https://arxiv.org/abs/2412.04784
 
 ```bibtex
-@article{li2024nlp,
-  title={NLP-ADBench: NLP Anomaly Detection Benchmark},
+@article{li2025nlp,
+  title={Nlp-adbench: Nlp anomaly detection benchmark},
   author={Li, Yuangang and Li, Jiaqi and Xiao, Zhuo and Yang, Tiankai and Nian, Yi and Hu, Xiyang and Zhao, Yue},
-  journal={arXiv preprint arXiv:2412.04784},
-  year={2024}
+  journal={Findings of the Association for Computational Linguistics: EMNLP 2025},
+  year={2025}
 }
 ```
 
